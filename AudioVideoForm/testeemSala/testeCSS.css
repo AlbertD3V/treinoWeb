@@ -1,9 +1,19 @@
-h1{
-    font-size: 60px;
-    color: rgb(26, 26, 238);
+#h1test{
+    font-size: 70px;
+    font-family: 'Times New Roman', Times, serif;
+    color: aliceblue;
     text-align: center;
+    border-style: dotted;
+    border-width: 15px;
 }
 body{
     background-color: brown;
+    
+
+}
+*{
+    font-size: 60px;
+    color: rgb(31, 31, 44);
+    text-align: left;
     
 }
