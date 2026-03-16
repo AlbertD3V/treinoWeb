@@ -1,0 +1,57 @@
+table {
+    border-collapse: collapse;
+    width: 700px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+th, td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: center;
+}
+
+th {
+    color: white;
+    background-color: black;
+}
+
+.centro-oeste {
+    background-color: #58852c;
+    font-weight: bold;
+}
+.centro-oesteTd {
+    background-color: #58852c;
+    
+}
+
+.nordeste {
+    background-color: #81b633;
+    font-weight: bold;
+}
+.nordesteTd {
+    background-color: #81b633;
+}
+
+.norte{
+    background-color: #cfe64d;
+    font-weight: bold;
+}
+.norteTd{
+    background-color: #cfe64d;
+}
+
+.sudeste{
+    background-color: #c3d84d;
+    font-weight: bold;
+}
+.sudesteTd{
+    background-color: #c3d84d;
+}
+
+.sul{
+    background-color: #f5ec74;
+    font-weight: bold;
+}
+.sulTd{
+   background-color: #f5ec74; 
+}
