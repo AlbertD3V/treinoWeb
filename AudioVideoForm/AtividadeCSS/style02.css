@@ -1,0 +1,67 @@
+* {
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.divred {
+    text-align: center;   
+    width: 100%;
+    height: 100px;
+    font-weight: bold;
+    border: 8px solid gray;
+    background-color: red;
+}
+
+.divgreen {
+    background-color: greenyellow;
+    text-align: left;
+    float: left;
+    width: 15%;
+    height: 500px;
+    border: 8px solid gray;
+}
+
+.divorange {
+    background-color: orange;
+    text-align: center;
+    float: left;
+    width: 28%;
+    height: 500px;
+    border: 8px solid gray;
+}
+
+.divblue {
+    background-color: blue;
+    text-align: center;
+    float: left;
+    width: 28%;
+    height: 500px;
+    border: 8px solid gray;
+}
+
+.divpink {
+    background-color: pink;
+    text-align: center;
+    float: left;
+    width: 29%;
+    height: 500px;
+    border: 8px solid gray;
+}
+
+.divrodape {
+    background-color: rgb(13, 0, 88);
+    border: 8px solid gray;
+    text-align: center;
+    color: white;
+    height: 100px;
+    width: 100%;
+    clear: both;
+}
+
+button{
+   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+   font-size: larger;
+   font-weight: bold;
+   background-color: rgb(255, 255, 0);
+   border: 5px solid rgb(248, 245, 245);
+}
