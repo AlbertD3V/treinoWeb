@@ -4,74 +4,59 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Questão 3 - Albert Carneiro</title>
+    <link rel="stylesheet" href="style03.css">
 </head>
 <body>
 
     <header class="topo">
-        <img src="logo.png" alt="Logo Barba e Bigode" class="logo">
-        <h1>Barba & Bigode</h1>
+        <img src="logo.png" alt="Logo Barba e Bigode" class="logo">        
     </header>
 
     <table class="menu">
-        <th colspan="5"><a href="indexBarbaBigod.html">Home</a></th>
-        <th colspan="5"><a href="#">Fotos e Tendências</a></th>
-        <th colspan="5"><a href="#">Agende seu Atendimento</a></th>
-        <th colspan="5"><a href="#">Localização</a></th>
-        <th colspan="5"><a href="#">Trabalhe Conosco</a></th>
-        <th colspan="5"><a href="#">Nossas Filiais</a></th>
-        <th colspan="5"><a href="#">Contato</a></th>
-
-       
-        
-        
-        
-        
-
+        <th colspan="5" class="menu"><a href="indexBarbaBigod.html">Home</a>     
+        </th>
+        <th colspan="5" class="menu"><a href="#">Fotos e Tendências</a>
+        </th>
+        <th colspan="5" class="menu"><a href="#">Agende seu Atendimento</a>
+        </th>
+        <th colspan="5" class="menu"><a href="#">Localização</a>
+        </th>
+        <th colspan="5" class="menu"><a href="#">Trabalhe Conosco</a>
+        </th>
+        <th colspan="5" class="menu"><a href="#">Nossas Filiais</a>
+        </th>
+        <th colspan="5" class="menu"><a href="#">Contato</a>
+        </th>     
     </table>
-    <nav class="menu">
+    <div class="banner"><img src="banner.png" alt="Imagem principal da barbearia"></div>
+    
+    <h2>Estilos</h2>
+
+    <div class="cards">
+                    <div class="card">
+                        <a href="ator.html">
+                            <img src="ator.png" alt="Estilo O Ator">
+                        </a>
+                        <p>O Ator</p>
+                    </div>
         
-    </nav>
+                    <div class="card">
+                        <a href="nerd.html">
+                            <img src="nerd.png" alt="Estilo O Nerd">
+                        </a>
+                        <p>O Nerd</p>
+                    </div>
 
-    <main class="conteudo">
-        <section class="banner">
-            <img src="banner.png" alt="Imagem principal da barbearia">
-        </section>
+                    <div class="card">
+                        <a href="pai.html">
+                            <img src="pai.png" alt="Estilo O Pai">
+                        </a>
+                        <p>O Pai</p>
+                    </div>
+    </div>
 
-        <section class="estilos">
-            <h2>Estilos</h2>
 
-            <div class="cards">
-                <div class="card">
-                    <a href="ator.html">
-                        <img src="ator.png" alt="Estilo O Ator">
-                    </a>
-                    <p>O Ator</p>
-                </div>
-
-                <div class="card">
-                    <a href="nerd.html">
-                        <img src="nerd.png" alt="Estilo O Nerd">
-                    </a>
-                    <p>O Nerd</p>
-                </div>
-
-                <div class="card">
-                    <a href="pai.html">
-                        <img src="pai.png" alt="Estilo O Pai">
-                    </a>
-                    <p>O Pai</p>
-                </div>
-            </div>
-        </section>
-
-        <section class="info-extra">
-            <h2>Sobre a Barbearia</h2>
-            <p>
-                A Barba & Bigode é uma barbearia fictícia criada para demonstrar
-                o uso de HTML e CSS com imagens, links, textos e estrutura visual.
-            </p>
-
-            <table>
+        <table>
                 <tr>
                     <th>Serviço</th>
                     <th>Duração</th>
@@ -93,16 +78,6 @@
                     <td>R$ 55,00</td>
                 </tr>
             </table>
-        </section>
-
-        <section class="video-area">
-            <h2>Conheça nosso espaço</h2>
-            <video controls width="600">
-                <source src="midia/barbearia.mp4" type="video/mp4">
-                Seu navegador não suporta vídeo.
-            </video>
-        </section>
-    </main>
 
     <footer class="rodape">
         <p>&copy; 2026 - Barbearia Barba & Bigode</p>
