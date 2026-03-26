@@ -1,0 +1,16 @@
+img{
+    height: 100px;
+    float: left;
+   
+}
+.fontecabecario{
+    font-family: Arial, Helvetica, sans-serif;   
+    color: rgb(181, 153, 108);
+    
+}
+.fontcabecabold{
+     font-weight: bold;
+}
+div{
+    float: right;
+}
