@@ -3,31 +3,73 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Página Principal | Barber City</title>
     <link rel="stylesheet" href="StalyGrid.css">
 </head>
 <body>
-    <header> 
-       <img hspace ="50" src="logo.png" alt="Logo da barbearia Barber City"> 
+    <main class="page-shell">
 
-       <div class="divcabecaria">
-        <p class="fontecabecario  fontcabecabold">Há 35 anos cuidando de você! </p>   
-        <p class="fontecabecario"> Agende seu serviço pelo<br> Whatsapp (71) 98298-8888</p>   
-       </div> 
-    </header>    
-    <hr width="100%" size="7px" color="#764A03">
+        <section class="site-frame home-frame">
+            <header class="home-header">
+                <img class="brand-logo" src="logo.png" alt="Logo Barber City Beauty Lounge">
 
-<div class="divmaior">
+                <div class="header-copy">
+                    <p class="headline">Há 35 anos cuidando de você!</p>
+                    <p>Agende seu serviço pelo</p>
+                    <p>Whatsapp (71) 98298-8888</p>
+                </div>
+            </header>
 
-    <div>
-        <p class="textomenu">Home</p>
-        <p class="textomenu">Nossos preços</p>
-        <p class="textomenu">Promoção</p>
-        <p class="textomenu">Sobre</p>
-        <p class="textomenu">Contato</p>
-    </div>
+            <div class="home-divider"></div>
 
-</div>
+            <section class="home-grid">
+                <nav class="home-menu" aria-label="Menu principal">
+                    <span class="menu-link active">Home</span>
+                    <a class="menu-link" href="nossos-precos.html">Nossos preços</a>
+                    <a class="menu-link" href="promocao.html">Promoção</a>
+                    <a class="menu-link" href="sobre.html">Sobre</a>
+                    <a class="menu-link" href="contato.html">Contato</a>
+                </nav>
 
+                <section class="services-grid" aria-label="Serviços">
+                    <article class="service-card">
+                        <img src="corteTesoura.png" alt="Corte e tratamento de cabelo">
+                        <div class="service-card-body">
+                            <h2>Cortes e Tratamento de Cabelo Unissex</h2>
+                            <a class="service-button" href="cortes.html">Conheça nossos Serviços</a>
+                        </div>
+                    </article>
+
+                    <article class="service-card">
+                        <img src="esmalte.png" alt="Serviço de manicure e pedicure">
+                        <div class="service-card-body">
+                            <h2>Manicure e Pedicure</h2>
+                            <a class="service-button" href="manicure.html">Conheça nossos Serviços</a>
+                        </div>
+                    </article>
+
+                    <article class="service-card">
+                        <img src="skincare.png" alt="Serviço de depilação">
+                        <div class="service-card-body">
+                            <h2>Depilação</h2>
+                            <a class="service-button" href="depilacao.html">Conheça nossos Serviços</a>
+                        </div>
+                    </article>
+                </section>
+            </section>
+
+            <footer class="home-footer">
+                <div class="footer-copy">
+                    <p>Barber City Salvador Shopping - Av. Tancredo Neves, 2915 - Salvador/BA</p>
+                    <p>Barber City Shopping da Bahia - Av. Tancredo Neves, 148 - Salvador/BA</p>
+                    <p>Copyright © Todos os direitos reservados ao Barber City</p>
+                </div>
+
+                <a class="contact-badge" href="contato.html">
+                    <img src="contatenos.png" alt="Botão de contato">
+                </a>
+            </footer>
+        </section>
+    </main>
 </body>
 </html>
