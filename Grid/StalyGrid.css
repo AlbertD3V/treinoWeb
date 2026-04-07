@@ -391,12 +391,45 @@ img{
 }
 
 @media (max-width: 900px){
+    .home-header,
+    .two-column,
+    .two-column.reverse,
+    .contact-grid{
+        grid-template-columns: 1fr;
+    }
+
+    .layout-principal{
+        grid-template-columns: 1fr 1fr;
+        grid-template-areas:
+        "header header"
+        "linha linha"
+        "menu menu"
+        "servicos servicos"
+        "footer footer";
+    }
+
+    .home-menu{
+        justify-items: center;
+    }
+
+    .services-grid{
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .home-footer{
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .header-copy,
+    .footer-copy{
+        text-align: center;
+    }
+}
+
+@media (max-width: 640px){
     .layout-principal,
     .home-header,
     .services-grid,
-    .two-column,
-    .two-column.reverse,
-    .contact-grid,
     .home-footer{
         grid-template-columns: 1fr;
     }
@@ -410,18 +443,10 @@ img{
         "footer";
     }
 
-    .header-copy,
-    .home-menu,
-    .footer-copy{
-        text-align: center;
-    }
-
     .home-menu{
         justify-items: center;
     }
-}
 
-@media (max-width: 640px){
     .page-title{
         font-size: 26px;
     }
