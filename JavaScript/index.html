@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-Br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript</title>
+    <script>
+        var contador = 0;
+        function minhaFunc(){
+            
+            if(document.getElementById("demo").innerHTML == "O JavaScript pode mudar o conteúdo")
+            {
+                document.getElementById("demo").innerHTML = "Olá JavaScript";
+                window.alert("trocando informação");
+
+                console.log("informação trocado")
+                contador++;
+            }
+            else
+            {
+                document.getElementById("demo").innerHTML = "O JavaScript pode mudar o conteúdo";
+                console.log("O texto foi alterado " + contador + " vezes.")
+            }
+           
+
+        }
+    </script>
+</head>
+<body>
+    <h2>O que o JavaScript pode fazer? </h2>
+    
+    <p id="demo">O JavaScript pode mudar o conteúdo</p>
+    
+    <button type="button" onclick='minhaFunc()'> Clique aqui</button>
+</body>
+</html>
