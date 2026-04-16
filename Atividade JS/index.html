@@ -3,10 +3,74 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Albert Carneiro | Supermecado Pague e Pague</title>
+    <title>Supermercado Pague e Pague</title>
     <link rel="stylesheet" href="StalyGridJS.css">
 </head>
 <body>
-    
+    <main class="container-geral pagina-inicial">
+        <header class="topo-principal">
+            <img src="spp.png" alt="Logo do Supermercado Pague e Pague" class="logo-mercado">
+
+            <div class="texto-topo">
+                <img src="oferta.png" alt="Oferta do Dia" class="imagem-oferta-topo">
+                <p>Promocoes especiais, destaques da semana e um atalho rapido para montar seu pedido.</p>
+            </div>
+        </header>
+
+        <aside class="menu-lateral">
+            <img src="destaque.png" alt="Destaques" class="titulo-menu">
+
+            <ul class="lista-destaques">
+                <li><a href="#ofertaDia">Oferta do dia</a></li>
+                <li><a href="#promocaoEspecial">Promocao especial</a></li>
+                <li><a href="pedido.html">Faca seu Pedido</a></li>
+            </ul>
+        </aside>
+
+        <section class="painel-informacao" id="ofertaDia">
+            <h1 class="titulo-secao">Bem-vindo ao Pague e Pague</h1>
+            <p>
+                Nesta pagina inicial voce encontra o destaque principal da loja e pode seguir
+                para a area de pedidos conforme solicitado na atividade.
+            </p>
+
+            <div class="caixas-informativas">
+                <article class="caixa-item">
+                    <h2>Oferta do Dia</h2>
+                    <p>Produtos selecionados com preco especial durante a semana.</p>
+                </article>
+
+                <article class="caixa-item">
+                    <h2>Qualidade</h2>
+                    <p>Itens organizados para facilitar a visualizacao e o pedido.</p>
+                </article>
+
+                <article class="caixa-item">
+                    <h2>Pedido Rapido</h2>
+                    <p>Preencha o formulario da pagina 2 e liste os itens do pedido.</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="cartaz-promocao" id="promocaoEspecial">
+            <h2 class="subtitulo-bloco">Promocao da Semana</h2>
+            <img src="promocao2.jpeg" alt="Promocao especial do leite UHT Dia" class="imagem-promocao">
+        </section>
+
+        <section class="bloco-pedido">
+            <h2 class="subtitulo-bloco">Ir para a Pagina de Pedido</h2>
+
+            <a href="pedido.html" class="link-pedido">
+                <img src="fazerpedido2.png" alt="Faca agora seu pedido" class="imagem-pedido">
+            </a>
+
+            <p>Clique na imagem acima ou na opcao do menu para abrir a Pagina 2.</p>
+        </section>
+
+        <footer class="rodape-principal">
+            <p>Atividade Pratica 2 - HTML5, CSS e JavaScript</p>
+            <p>Layout construido com CSS Grid e imagens da pasta da atividade.</p>
+        </footer>
+    </main>
 </body>
 </html>
