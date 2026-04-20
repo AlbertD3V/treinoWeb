@@ -2,321 +2,307 @@
     box-sizing: border-box;
 }
 
-:root {
-    --cor-amarela: #ffd22b;
-    --cor-laranja: #ff6f1e;
-    --cor-verde: #14a391;
-    --cor-preta: #1e1e1e;
-    --cor-branca: #ffffff;
-    --cor-fundo: #fff4c4;
-}
-
 body {
     margin: 0;
     font-family: Arial, Helvetica, sans-serif;
-    background: linear-gradient(180deg, #ffe566 0%, #fff8dd 100%);
-    color: var(--cor-preta);
+    background: #ffffff;
+    color: #181818;
 }
 
 img {
     display: block;
     max-width: 100%;
+    height: auto;
 }
 
 a {
-    color: inherit;
     text-decoration: none;
 }
 
 .container-geral {
-    width: min(1180px, 94vw);
-    margin: 20px auto;
-    background-color: rgba(255, 255, 255, 0.9);
-    border: 4px solid var(--cor-preta);
-    border-radius: 24px;
-    box-shadow: 0 14px 30px rgba(0, 0, 0, 0.2);
-    overflow: hidden;
+    width: 98%;
+    max-width: 980px;
+    margin: 8px auto 14px;
 }
 
 .pagina-inicial {
     display: grid;
-    grid-template-columns: 250px 1fr 1fr;
+    grid-template-columns: 180px 1fr 250px;
     grid-template-areas:
         "topo topo topo"
-        "menu informacao informacao"
-        "menu promocao pedido"
+        "menu ofertas pedido"
         "rodape rodape rodape";
-    gap: 18px;
-    padding: 18px;
+    gap: 6px;
+    padding: 6px;
+    background: #ffffff;
 }
 
-.pagina-pedido {
-    display: grid;
-    grid-template-columns: 1.2fr 0.8fr;
-    grid-template-areas:
-        "topo topo"
-        "formulario resumo"
-        "tabela tabela";
-    gap: 18px;
-    padding: 18px;
-}
-
-.topo-principal {
+.pagina-inicial .topo-principal {
     grid-area: topo;
-    display: grid;
-    grid-template-columns: 180px 1fr;
+    display: flex;
     align-items: center;
-    gap: 20px;
-    padding: 20px;
-    border-radius: 20px;
-    background-color: var(--cor-branca);
-    border: 3px solid var(--cor-preta);
+    gap: 18px;
+    min-height: 78px;
+    padding: 10px 14px;
+    background: #f5aa09;
 }
 
-.logo-mercado {
-    width: 170px;
-    justify-self: center;
+.pagina-inicial .logo-mercado {
+    width: 150px;
 }
 
-.texto-topo p {
-    margin: 12px 0 0;
-    font-size: 18px;
-    line-height: 1.5;
-}
-
-.imagem-oferta-topo {
-    max-width: 420px;
-}
-
-.menu-lateral,
-.painel-informacao,
-.cartaz-promocao,
-.bloco-pedido,
-.painel-formulario,
-.painel-resumo,
-.secao-tabela {
-    background-color: var(--cor-branca);
-    border: 3px solid var(--cor-preta);
-    border-radius: 20px;
-    padding: 18px;
+.titulo-mercado {
+    flex: 1;
+    margin: 0;
+    color: #ff4b00;
+    text-align: center;
+    font-size: 32px;
+    font-weight: normal;
 }
 
 .menu-lateral {
     grid-area: menu;
-    background-color: var(--cor-preta);
-    color: var(--cor-branca);
+    padding: 12px 12px 16px 34px;
+    background: #f5aa09;
 }
 
 .titulo-menu {
-    margin-bottom: 18px;
+    width: 120px;
+    margin-bottom: 28px;
 }
 
 .lista-destaques {
-    list-style-type: square;
-    padding-left: 24px;
+    width: 98px;
     margin: 0;
+    padding: 6px 8px;
+    list-style: none;
+    background: #000000;
 }
 
 .lista-destaques li {
-    margin-bottom: 16px;
+    margin-bottom: 6px;
 }
 
 .lista-destaques a {
-    font-size: 20px;
-    font-weight: bold;
-    color: var(--cor-amarela);
+    display: block;
+    color: #ffffff;
+    font-size: 13px;
+    line-height: 16px;
+    text-decoration: underline;
 }
 
-.lista-destaques a:hover {
-    color: var(--cor-branca);
+.painel-ofertas {
+    grid-area: ofertas;
+    background: #f5aa09;
 }
 
-.painel-informacao {
-    grid-area: informacao;
+.vitrine-ofertas {
+    height: 100%;
+    min-height: 200px;
+    padding: 18px 12px 14px;
+    background: #000000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
 }
 
-.titulo-secao {
-    margin-top: 0;
-    margin-bottom: 10px;
-    font-size: 34px;
-    color: var(--cor-laranja);
+.marca-ofertas {
+    width: 220px;
 }
 
-.caixas-informativas {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 14px;
-    margin-top: 18px;
+.cartao-promocao {
+    width: 165px;
+    padding: 8px;
+    background: #ffd63b;
 }
 
-.caixa-item {
-    padding: 14px;
-    border-radius: 16px;
-    background-color: var(--cor-fundo);
-    border: 2px dashed var(--cor-laranja);
-}
-
-.caixa-item h2 {
-    margin-top: 0;
-    color: var(--cor-verde);
-    font-size: 22px;
-}
-
-.caixa-item p,
-.painel-informacao p,
-.bloco-pedido p,
-.painel-resumo p {
-    font-size: 17px;
-    line-height: 1.5;
-}
-
-.cartaz-promocao {
-    grid-area: promocao;
-}
-
-.subtitulo-bloco {
-    margin-top: 0;
-    margin-bottom: 14px;
-    font-size: 26px;
-    color: var(--cor-laranja);
-}
-
-.imagem-promocao {
+.imagem-promocao-principal {
     width: 100%;
-    border-radius: 16px;
+    height: 150px;
+    object-fit: cover;
+    object-position: center top;
 }
 
 .bloco-pedido {
     grid-area: pedido;
-    text-align: center;
-    background-color: #fff7dc;
+    min-height: 200px;
+    padding: 20px;
+    background: #f5aa09;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .link-pedido {
     display: inline-block;
-    padding: 10px;
-    border-radius: 18px;
-    transition: transform 0.2s ease;
-}
-
-.link-pedido:hover {
-    transform: scale(1.03);
 }
 
 .imagem-pedido {
-    width: 260px;
-    max-width: 100%;
-    margin: 0 auto 12px;
+    width: 200px;
 }
 
 .rodape-principal {
     grid-area: rodape;
+    padding: 12px 16px;
+    background: #f5aa09;
     text-align: center;
-    padding: 20px;
-    border-radius: 20px;
-    background-color: var(--cor-preta);
-    color: var(--cor-branca);
 }
 
 .rodape-principal p {
-    margin: 5px 0;
+    margin: 0;
+    color: #ff4b00;
+    font-size: 12px;
+    line-height: 16px;
+}
+
+.pagina-pedido {
+    width: 98%;
+    max-width: 1060px;
+    padding: 12px 0 20px;
+    background: #ffffff;
+}
+
+.voltar-inicio {
+    display: inline-block;
+    margin-bottom: 10px;
+    color: #0d6efd;
+    font-size: 14px;
+    text-decoration: underline;
+}
+
+.pedido-centro {
+    display: flex;
+    justify-content: center;
 }
 
 .painel-formulario {
-    grid-area: formulario;
+    width: 345px;
+    max-width: 100%;
+    border: 1px solid #c8c8c8;
+    background: #ffffff;
 }
 
-.painel-resumo {
-    grid-area: resumo;
+.titulo-pedido-card {
+    margin: 0;
+    padding: 16px 12px;
+    border-bottom: 1px solid #d9d9d9;
+    font-size: 32px;
+    font-weight: normal;
+    color: #1b1b1b;
 }
 
-.imagem-promocao-lateral {
+.formulario-pedido {
+    padding: 14px 12px 12px;
+}
+
+.campo-formulario {
     margin-bottom: 14px;
 }
 
-.acoes-formulario {
-    display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
+.campo-formulario label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: #202020;
+}
+
+.campo-formulario input {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid #cbd3df;
+    font-size: 16px;
+    color: #1b1b1b;
+    background: #ffffff;
+}
+
+.botao-adicionar {
+    padding: 4px 10px;
+    border: 1px solid #6e6e6e;
+    background: #f3f3f3;
+    color: #111111;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.acoes-listagem {
+    margin-top: 8px;
+}
+
+.link-listar {
+    color: #0d6efd;
+    font-size: 14px;
+    text-decoration: underline;
 }
 
 .secao-tabela {
-    grid-area: tabela;
     display: none;
+    margin-top: 2px;
+    padding-top: 10px;
+    border-top: 1px solid #d8d8d8;
 }
 
-.caixa-total {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 14px;
-    padding: 14px 18px;
-    border-radius: 16px;
-    background-color: var(--cor-fundo);
-    border: 2px solid var(--cor-laranja);
-    font-size: 20px;
+.tabela-responsiva {
+    overflow-x: auto;
 }
 
-.caixa-total strong {
-    color: var(--cor-laranja);
+.tabela-pedido {
+    width: 100%;
+    min-width: 860px;
+    border-collapse: collapse;
 }
 
-@media (max-width: 900px) {
-    .pagina-inicial {
-        grid-template-columns: 1fr 1fr;
-        grid-template-areas:
-            "topo topo"
-            "menu menu"
-            "informacao informacao"
-            "promocao pedido"
-            "rodape rodape";
-    }
-
-    .pagina-pedido {
-        grid-template-columns: 1fr;
-        grid-template-areas:
-            "topo"
-            "formulario"
-            "resumo"
-            "tabela";
-    }
-
-    .caixas-informativas {
-        grid-template-columns: 1fr;
-    }
+.tabela-pedido th {
+    padding: 12px 10px;
+    text-align: left;
+    font-size: 15px;
+    font-weight: bold;
+    color: #111111;
 }
 
-@media (max-width: 640px) {
+.tabela-pedido td {
+    padding: 12px 10px;
+    text-align: left;
+    font-size: 15px;
+}
+
+.tabela-pedido tbody tr {
+    border-top: 1px solid #dcdcdc;
+}
+
+@media (max-width: 700px) {
     .pagina-inicial {
         grid-template-columns: 1fr;
         grid-template-areas:
             "topo"
             "menu"
-            "informacao"
-            "promocao"
+            "ofertas"
             "pedido"
             "rodape";
     }
 
-    .topo-principal {
-        grid-template-columns: 1fr;
+    .pagina-inicial .topo-principal {
+        display: block;
         text-align: center;
     }
 
-    .imagem-oferta-topo {
-        margin: 0 auto;
+    .pagina-inicial .logo-mercado {
+        margin: 0 auto 10px;
     }
 
-    .titulo-secao {
-        font-size: 28px;
+    .menu-lateral {
+        padding: 14px 16px;
     }
 
-    .subtitulo-bloco {
-        font-size: 24px;
+    .lista-destaques {
+        width: 120px;
     }
 
-    .caixa-total {
-        flex-direction: column;
-        align-items: flex-start;
+    .pagina-pedido {
+        padding-top: 8px;
+    }
+
+    .painel-formulario {
+        width: 100%;
     }
 }
