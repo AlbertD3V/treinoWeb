@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ranking</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styleLopreu.css">
+</head>
+<body class="pagina-ranking">
+    <main class="container ranking-area">
+        <section class="card formulario-ranking">
+            <div class="card-header">
+                <h1>Ranking da Saga de Mané Lopreu</h1>
+            </div>
+
+            <div class="card-body">
+                <form id="formJogador">
+                    <div class="mb-3">
+                        <label for="nome" class="form-label">Nome do Jogador:</label><br>
+                        <input type="text" class="form-label" id="nome" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="partidas" class="form-label">Número de Partidas Jogadas:</label>
+                        <input type="text" inputmode="numeric" class="form-label" id="partidas" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="acertos" class="form-label">Número de Acertos:</label><br>
+                        <input type="text" inputmode="numeric" class="form-label" id="acertos" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="erros" class="form-label">Número de Erros:</label><br>
+                        <input type="text" inputmode="numeric" class="form-label" id="erros" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-light btn-adicionar">Adicionar</button>
+                </form>
+            </div>
+        </section>
+
+        <a href="#" id="linkRanking" class="link-ranking">RANKING</a>
+
+        <table class="table tabela-ranking">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Partidas Jogadas</th>
+                    <th>Acertos</th>
+                    <th>Erros</th>
+                    <th>Ranking</th>
+                </tr>
+            </thead>
+            <tbody id="corpoTabela"></tbody>
+        </table>
+    </main>
+
+    <script src="scriptLopreu.js"></script>
+</body>
+</html>
