@@ -15,6 +15,7 @@ class Pedido {
 }
 
 const listaPedidos = [];
+
 const formularioPedido = document.getElementById("formPedido");
 const botaoListarPedido = document.getElementById("btnListarPedido");
 const secaoTabela = document.getElementById("secaoTabela");
