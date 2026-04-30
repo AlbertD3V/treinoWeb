@@ -1,14 +1,4 @@
-<!DOCTYPE html>
-<html lang="pt-Br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="phaser.js"></script>
-    <title>Phaser 3 Shooting Game</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-<script type="text/javascript">
+
     // LocalStorage helpers
     function saveScore(name, score) {
         var ranking = JSON.parse(localStorage.getItem('gameRanking')) || [];
@@ -300,7 +290,7 @@
         }
 
         updateLevelTimer() {
-            if (this.gameOver || this.currentLevel >= 5) return;
+            if (this.gameOver || this.bossActive) return;
 
             this.levelTimeRemaining--;
             this.timerText.setText('Time: ' + this.levelTimeRemaining);
@@ -742,6 +732,4 @@
     };
 
     var game = new Phaser.Game(config);
-</script>
-</body>
-</html>
+
