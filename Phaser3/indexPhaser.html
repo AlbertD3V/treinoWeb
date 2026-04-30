@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-Br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,741 +8,734 @@
     <title>Phaser 3 Shooting Game</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-<script type="text/javascript">
-    // LocalStorage helpers
-    function saveScore(name, score) {
-        var ranking = JSON.parse(localStorage.getItem('gameRanking')) || [];
-        ranking.push({ name: name, score: score, date: new Date().toLocaleDateString() });
-        ranking.sort(function(a, b) { return b.score - a.score; });
-        localStorage.setItem('gameRanking', JSON.stringify(ranking));
-    }
-
-    function getRanking() {
-        return JSON.parse(localStorage.getItem('gameRanking')) || [];
-    }
-
-    var playerName = "Player";
-
-    // --- SCENES ---
-
-    class MenuScene extends Phaser.Scene {
-        constructor() {
-            super({ key: 'MenuScene' });
+    <script type="text/javascript">
+        // LocalStorage helpers
+        function saveScore(name, score) {
+            var ranking = JSON.parse(localStorage.getItem('gameRanking')) || [];
+            ranking.push({ name: name, score: score, date: new Date().toLocaleDateString() });
+            ranking.sort(function (a, b) { return b.score - a.score; });
+            localStorage.setItem('gameRanking', JSON.stringify(ranking));
         }
 
-        create() {
-            this.add.text(400, 200, 'GEOMETRIC TERROR', { fontSize: '64px', fill: '#fff', fontStyle: 'bold' }).setOrigin(0.5);
+        function getRanking() {
+            return JSON.parse(localStorage.getItem('gameRanking')) || [];
+        }
 
-            var playBtn = this.add.text(400, 350, 'PLAY', { fontSize: '48px', fill: '#0f0', fontStyle: 'bold' }).setOrigin(0.5);
-            playBtn.setInteractive();
-            playBtn.on('pointerover', () => playBtn.setFill('#fff'));
-            playBtn.on('pointerout', () => playBtn.setFill('#0f0'));
-            playBtn.on('pointerdown', () => {
-                var name = prompt("Enter your nickname:", playerName);
-                if (name !== null && name.trim() !== "") {
-                    playerName = name.trim();
+        var playerName = "Player";
+
+        // --- SCENES ---
+
+        class MenuScene extends Phaser.Scene {
+            constructor() {
+                super({ key: 'MenuScene' });
+            }
+
+            create() {
+                this.add.text(400, 200, 'GEOMETRIC TERROR', { fontSize: '64px', fill: '#fff', fontStyle: 'bold' }).setOrigin(0.5);
+
+                var playBtn = this.add.text(400, 350, 'PLAY', { fontSize: '48px', fill: '#0f0', fontStyle: 'bold' }).setOrigin(0.5);
+                playBtn.setInteractive();
+                playBtn.on('pointerover', () => playBtn.setFill('#fff'));
+                playBtn.on('pointerout', () => playBtn.setFill('#0f0'));
+                playBtn.on('pointerdown', () => {
+                    var name = prompt("Enter your nickname:", playerName);
+                    if (name !== null && name.trim() !== "") {
+                        playerName = name.trim();
+                    }
+                    this.scene.start('GameScene');
+                });
+
+                var rankBtn = this.add.text(400, 450, 'RANKING', { fontSize: '48px', fill: '#ff0', fontStyle: 'bold' }).setOrigin(0.5);
+                rankBtn.setInteractive();
+                rankBtn.on('pointerover', () => rankBtn.setFill('#fff'));
+                rankBtn.on('pointerout', () => rankBtn.setFill('#ff0'));
+                rankBtn.on('pointerdown', () => {
+                    this.scene.start('RankingScene');
+                });
+            }
+        }
+
+        class RankingScene extends Phaser.Scene {
+            constructor() {
+                super({ key: 'RankingScene' });
+            }
+
+            create() {
+                this.add.text(400, 100, 'TOP 10 RANKING', { fontSize: '48px', fill: '#fff', fontStyle: 'bold' }).setOrigin(0.5);
+
+                var ranking = getRanking();
+                var startY = 180;
+                for (var i = 0; i < Math.min(10, ranking.length); i++) {
+                    var r = ranking[i];
+                    this.add.text(200, startY + (i * 30), (i + 1) + ". " + r.name, { fontSize: '24px', fill: '#fff' });
+                    this.add.text(600, startY + (i * 30), r.score.toString(), { fontSize: '24px', fill: '#ff0' }).setOrigin(1, 0);
                 }
-                this.scene.start('GameScene');
-            });
 
-            var rankBtn = this.add.text(400, 450, 'RANKING', { fontSize: '48px', fill: '#ff0', fontStyle: 'bold' }).setOrigin(0.5);
-            rankBtn.setInteractive();
-            rankBtn.on('pointerover', () => rankBtn.setFill('#fff'));
-            rankBtn.on('pointerout', () => rankBtn.setFill('#ff0'));
-            rankBtn.on('pointerdown', () => {
-                this.scene.start('RankingScene');
-            });
-        }
-    }
-
-    class RankingScene extends Phaser.Scene {
-        constructor() {
-            super({ key: 'RankingScene' });
-        }
-
-        create() {
-            this.add.text(400, 100, 'TOP 10 RANKING', { fontSize: '48px', fill: '#fff', fontStyle: 'bold' }).setOrigin(0.5);
-
-            var ranking = getRanking();
-            var startY = 180;
-            for (var i = 0; i < Math.min(10, ranking.length); i++) {
-                var r = ranking[i];
-                this.add.text(200, startY + (i * 30), (i + 1) + ". " + r.name, { fontSize: '24px', fill: '#fff' });
-                this.add.text(600, startY + (i * 30), r.score.toString(), { fontSize: '24px', fill: '#ff0' }).setOrigin(1, 0);
-            }
-
-            if (ranking.length === 0) {
-                this.add.text(400, 300, 'No scores yet!', { fontSize: '32px', fill: '#aaa' }).setOrigin(0.5);
-            }
-
-            var backBtn = this.add.text(400, 520, 'BACK TO MENU', { fontSize: '32px', fill: '#0f0', fontStyle: 'bold' }).setOrigin(0.5);
-            backBtn.setInteractive();
-            backBtn.on('pointerover', () => backBtn.setFill('#fff'));
-            backBtn.on('pointerout', () => backBtn.setFill('#0f0'));
-            backBtn.on('pointerdown', () => {
-                this.scene.start('MenuScene');
-            });
-        }
-    }
-
-    class GameScene extends Phaser.Scene {
-        constructor() {
-            super({ key: 'GameScene' });
-        }
-
-        init() {
-            this.score = 0;
-            this.gameOver = false;
-            
-            this.currentLevel = 1;
-            this.levelTimeRemaining = 30;
-            
-            this.lastFired = 0;
-            
-            this.laserReady = true;
-            this.laserActive = false;
-            this.laserEndTime = 0;
-            this.laserCooldownEndTime = 0;
-            
-            this.isInvulnerable = false;
-            this.invulnerabilityEndTime = 0;
-            
-            this.bulletLevel = 1;
-            this.bulletSpeed = -600;
-            
-            this.maxHealth = 100;
-            this.currentHealth = 100;
-            this.healthFlashTimer = 0;
-            
-            this.bossActive = false;
-            this.bossHP = 50;
-            this.bossMissileTimer = 0;
-        }
-
-        create() {
-            var graphics = this.add.graphics();
-            
-            // Ship Texture
-            graphics.fillStyle(0x00ff00, 1);
-            graphics.fillTriangle(16, 0, 0, 32, 32, 32);
-            graphics.generateTexture('ship', 32, 32);
-            graphics.clear();
-
-            // Bullet Texture
-            graphics.fillStyle(0xffff00, 1);
-            graphics.fillRect(0, 0, 4, 16);
-            graphics.generateTexture('bullet', 4, 16);
-            graphics.clear();
-
-            // Level 1: Slime
-            graphics.fillStyle(0xff0000, 1);
-            graphics.fillCircle(16, 16, 16);
-            graphics.generateTexture('enemy', 32, 32);
-            graphics.clear();
-
-            // Level 2: Bicolor Slime
-            graphics.fillStyle(0xffff00, 1);
-            graphics.beginPath();
-            graphics.arc(16, 16, 16, 0, Math.PI, false);
-            graphics.fill();
-            graphics.fillStyle(0x0000ff, 1);
-            graphics.beginPath();
-            graphics.arc(16, 16, 16, 0, Math.PI, true);
-            graphics.fill();
-            graphics.generateTexture('bicolorSlime', 32, 32);
-            graphics.clear();
-
-            // Level 3: 5-Pointed Star
-            graphics.fillStyle(0xff00ff, 1);
-            graphics.beginPath();
-            graphics.moveTo(16, 0);
-            graphics.lineTo(21, 10);
-            graphics.lineTo(32, 12);
-            graphics.lineTo(24, 20);
-            graphics.lineTo(26, 32);
-            graphics.lineTo(16, 26);
-            graphics.lineTo(6, 32);
-            graphics.lineTo(8, 20);
-            graphics.lineTo(0, 12);
-            graphics.lineTo(11, 10);
-            graphics.closePath();
-            graphics.fill();
-            graphics.generateTexture('fivePointStar', 32, 32);
-            graphics.clear();
-
-            // Level 4: Octagram (8-pointed star)
-            graphics.fillStyle(0xffffff, 1);
-            graphics.beginPath();
-            var cx = 16, cy = 16, outerRad = 16, innerRad = 8;
-            for (var i = 0; i < 16; i++) {
-                var rad = i % 2 === 0 ? outerRad : innerRad;
-                var angle = (i * Math.PI) / 8;
-                var x = cx + Math.cos(angle) * rad;
-                var y = cy + Math.sin(angle) * rad;
-                if (i === 0) graphics.moveTo(x, y);
-                else graphics.lineTo(x, y);
-            }
-            graphics.closePath();
-            graphics.fill();
-            graphics.generateTexture('octagram', 32, 32);
-            graphics.clear();
-
-            // Level 5: Geometric Terror Boss
-            graphics.fillStyle(0x440044, 1);
-            graphics.fillTriangle(0, 0, 100, 0, 50, 80);
-            graphics.fillStyle(0xff0000, 1);
-            graphics.fillCircle(30, 20, 8);
-            graphics.fillCircle(70, 20, 8);
-            graphics.generateTexture('boss', 100, 80);
-            graphics.clear();
-
-            // Enemy Projectiles
-            graphics.fillStyle(0x00ff00, 1);
-            graphics.fillCircle(8, 8, 8);
-            graphics.generateTexture('enemyGreenBall', 16, 16);
-            graphics.clear();
-
-            graphics.fillStyle(0xff0000, 1);
-            graphics.fillTriangle(4, 0, 8, 16, 0, 16);
-            graphics.generateTexture('enemyMissile', 8, 16);
-            graphics.clear();
-
-            // Collectibles
-            graphics.fillStyle(0x0088ff, 1);
-            graphics.fillCircle(16, 16, 16);
-            graphics.generateTexture('shieldItem', 32, 32);
-            graphics.clear();
-
-            graphics.fillStyle(0xff8800, 1);
-            graphics.fillCircle(16, 16, 16);
-            graphics.generateTexture('firepowerItem', 32, 32);
-            graphics.clear();
-
-            // Shield Bubble
-            graphics.lineStyle(3, 0x00ffff, 1);
-            graphics.strokeCircle(24, 24, 24);
-            graphics.generateTexture('shieldBubble', 48, 48);
-            graphics.clear();
-
-            // Laser Texture
-            graphics.fillStyle(0x00ffff, 0.8);
-            graphics.fillRect(0, 0, 32, 600);
-            graphics.generateTexture('laserBeam', 32, 600);
-            graphics.destroy();
-
-            // Game Objects
-            this.player = this.physics.add.sprite(400, 500, 'ship');
-            this.player.setCollideWorldBounds(true);
-
-            this.shieldBubble = this.add.image(400, 500, 'shieldBubble');
-            this.shieldBubble.setVisible(false);
-
-            this.boss = this.physics.add.sprite(400, -100, 'boss');
-            this.boss.setActive(false);
-            this.boss.setVisible(false);
-
-            this.bullets = this.physics.add.group();
-            this.enemies = this.physics.add.group();
-            this.enemyProjectiles = this.physics.add.group();
-            this.shieldCollectibles = this.physics.add.group();
-            this.firepowerCollectibles = this.physics.add.group();
-            
-            this.laser = this.physics.add.image(400, 300, 'laserBeam');
-            this.laser.disableBody(true, true);
-
-            this.input.mouse.disableContextMenu();
-
-            // Timers
-            this.enemyTimer = this.time.addEvent({ delay: 1000, callback: this.spawnEnemy, callbackScope: this, loop: true });
-            this.shieldTimer = this.time.addEvent({ delay: 10000, callback: this.spawnShieldItem, callbackScope: this, loop: true });
-            this.firepowerTimer = this.time.addEvent({ delay: 20000, callback: this.spawnFirepowerItem, callbackScope: this, loop: true });
-            this.levelTimerEvent = this.time.addEvent({ delay: 1000, callback: this.updateLevelTimer, callbackScope: this, loop: true });
-
-            // Collisions
-            this.physics.add.overlap(this.bullets, this.enemies, this.hitEnemy, null, this);
-            this.physics.add.overlap(this.player, this.enemies, this.hitPlayer, null, this);
-            this.physics.add.overlap(this.laser, this.enemies, this.hitEnemyLaser, null, this);
-            
-            this.physics.add.overlap(this.player, this.shieldCollectibles, this.collectShield, null, this);
-            this.physics.add.overlap(this.player, this.firepowerCollectibles, this.collectFirepower, null, this);
-            this.physics.add.overlap(this.player, this.enemyProjectiles, this.hitPlayerProjectile, null, this);
-
-            this.physics.add.overlap(this.bullets, this.boss, this.hitBoss, null, this);
-            this.physics.add.overlap(this.laser, this.boss, this.hitBossLaser, null, this);
-            this.physics.add.overlap(this.player, this.boss, this.hitPlayer, null, this);
-
-            // UI
-            this.healthBarBg = this.add.rectangle(16, 16, 200, 20, 0x000000).setOrigin(0, 0);
-            this.healthBarBg.setStrokeStyle(2, 0xffffff);
-            this.healthBarFill = this.add.rectangle(16, 16, 200, 20, 0x00ff00).setOrigin(0, 0);
-
-            this.scoreText = this.add.text(16, 45, 'Score: 0', { fontSize: '32px', fill: '#fff', fontFamily: 'Arial' });
-            this.bulletText = this.add.text(16, 80, 'Bullets: ∞', { fontSize: '24px', fill: '#fff', fontFamily: 'Arial' });
-            
-            this.levelText = this.add.text(400, 16, 'Level: 1', { fontSize: '32px', fill: '#fff', fontFamily: 'Arial', fontStyle: 'bold' }).setOrigin(0.5, 0);
-            this.timerText = this.add.text(400, 50, 'Time: 30', { fontSize: '24px', fill: '#ff0', fontFamily: 'Arial' }).setOrigin(0.5, 0);
-
-            this.bossHealthBg = this.add.rectangle(200, 80, 400, 20, 0x000000).setOrigin(0, 0).setDepth(100);
-            this.bossHealthBg.setStrokeStyle(2, 0xffffff);
-            this.bossHealthRed = this.add.rectangle(200, 80, 400, 20, 0xff0000).setOrigin(0, 0).setDepth(100);
-            this.bossHealthYellow = this.add.rectangle(200, 80, 400, 20, 0xffff00).setOrigin(0, 0).setDepth(100);
-            this.bossHealthGreen = this.add.rectangle(200, 80, 400, 20, 0x00ff00).setOrigin(0, 0).setDepth(100);
-            
-            this.bossHealthBg.setVisible(false);
-            this.bossHealthRed.setVisible(false);
-            this.bossHealthYellow.setVisible(false);
-            this.bossHealthGreen.setVisible(false);
-
-            this.laserIcon = this.add.text(730, 540, ' S ', { fontSize: '32px', fill: '#00ffff', backgroundColor: '#0033aa', padding: { x: 10, y: 5 }, fontStyle: 'bold', fontFamily: 'Arial' });
-            
-            this.gameOverContainer = this.add.container(400, 300);
-            this.gameOverContainer.setVisible(false);
-        }
-
-        updateLevelTimer() {
-            if (this.gameOver || this.currentLevel >= 5) return;
-
-            this.levelTimeRemaining--;
-            this.timerText.setText('Time: ' + this.levelTimeRemaining);
-
-            if (this.levelTimeRemaining <= 0) {
-                this.currentLevel++;
-                if (this.currentLevel < 5) {
-                    this.levelTimeRemaining = 30;
-                    this.levelText.setText('Level: ' + this.currentLevel);
-                } else {
-                    this.levelText.setText('Level: 5 (BOSS)');
-                    this.timerText.setText('BOSS FIGHT');
-                    this.spawnBoss();
+                if (ranking.length === 0) {
+                    this.add.text(400, 300, 'No scores yet!', { fontSize: '32px', fill: '#aaa' }).setOrigin(0.5);
                 }
+
+                var backBtn = this.add.text(400, 520, 'BACK TO MENU', { fontSize: '32px', fill: '#0f0', fontStyle: 'bold' }).setOrigin(0.5);
+                backBtn.setInteractive();
+                backBtn.on('pointerover', () => backBtn.setFill('#fff'));
+                backBtn.on('pointerout', () => backBtn.setFill('#0f0'));
+                backBtn.on('pointerdown', () => {
+                    this.scene.start('MenuScene');
+                });
             }
         }
 
-        spawnBoss() {
-            this.bossActive = true;
-            this.boss.enableBody(true, 400, 150, true, true);
-            this.boss.setVelocityY(0);
-            this.bossHP = 1000;
-            this.bossMissileTimer = this.time.now + 5000;
-            this.boss.lastFired = this.time.now + 1000;
-            
-            this.bossHealthBg.setVisible(true);
-            this.bossHealthRed.setVisible(true);
-            this.bossHealthYellow.setVisible(true);
-            this.bossHealthGreen.setVisible(true);
-            this.updateBossHealth();
-        }
-
-        updateBossHealth() {
-            var greenMax = 334;
-            var yellowMax = 333;
-            var redMax = 333;
-            
-            var greenHP = Math.max(0, this.bossHP - yellowMax - redMax);
-            var yellowHP = Math.max(0, this.bossHP - redMax - greenHP);
-            var redHP = Math.max(0, this.bossHP - greenHP - yellowHP);
-
-            this.bossHealthGreen.width = (greenHP / greenMax) * 400;
-            this.bossHealthYellow.width = (yellowHP / yellowMax) * 400;
-            this.bossHealthRed.width = (redHP / redMax) * 400;
-        }
-
-        update (time, delta)
-        {
-            if (this.gameOver) return;
-
-            // Player movement
-            if (this.input.mousePointer.x !== 0 || this.input.mousePointer.y !== 0) {
-                this.player.x = Phaser.Math.Clamp(this.input.mousePointer.x, 16, 784);
-                this.player.y = Phaser.Math.Clamp(this.input.mousePointer.y, 16, 584);
+        class GameScene extends Phaser.Scene {
+            constructor() {
+                super({ key: 'GameScene' });
             }
 
-            // Health Flash
-            if (this.currentHealth < 45 && this.currentHealth > 0) {
-                this.healthFlashTimer += delta;
-                if (this.healthFlashTimer > 250) {
-                    this.healthFlashTimer = 0;
-                    if (this.healthBarFill.fillColor === 0xffff00) this.healthBarFill.setFillStyle(0xff0000);
-                    else this.healthBarFill.setFillStyle(0xffff00);
+            init() {
+                this.score = 0;
+                this.gameOver = false;
+
+                this.currentLevel = 1;
+                this.levelTimeRemaining = 30;
+
+                this.lastFired = 0;
+
+                this.laserReady = true;
+                this.laserActive = false;
+                this.laserEndTime = 0;
+                this.laserCooldownEndTime = 0;
+
+                this.isInvulnerable = false;
+                this.invulnerabilityEndTime = 0;
+
+                this.bulletLevel = 1;
+                this.bulletSpeed = -600;
+
+                this.maxHealth = 100;
+                this.currentHealth = 100;
+                this.healthFlashTimer = 0;
+
+                this.bossActive = false;
+                this.bossHP = 50;
+                this.bossMissileTimer = 0;
+            }
+
+            create() {
+                var graphics = this.add.graphics();
+
+                // Ship Texture
+                graphics.fillStyle(0x00ff00, 1);
+                graphics.fillTriangle(16, 0, 0, 32, 32, 32);
+                graphics.generateTexture('ship', 32, 32);
+                graphics.clear();
+
+                // Bullet Texture
+                graphics.fillStyle(0xffff00, 1);
+                graphics.fillRect(0, 0, 4, 16);
+                graphics.generateTexture('bullet', 4, 16);
+                graphics.clear();
+
+                // Level 1: Slime
+                graphics.fillStyle(0xff0000, 1);
+                graphics.fillCircle(16, 16, 16);
+                graphics.generateTexture('enemy', 32, 32);
+                graphics.clear();
+
+                // Level 2: Bicolor Slime
+                graphics.fillStyle(0xffff00, 1);
+                graphics.beginPath();
+                graphics.arc(16, 16, 16, 0, Math.PI, false);
+                graphics.fill();
+                graphics.fillStyle(0x0000ff, 1);
+                graphics.beginPath();
+                graphics.arc(16, 16, 16, 0, Math.PI, true);
+                graphics.fill();
+                graphics.generateTexture('bicolorSlime', 32, 32);
+                graphics.clear();
+
+                // Level 3: 5-Pointed Star
+                graphics.fillStyle(0xff00ff, 1);
+                graphics.beginPath();
+                graphics.moveTo(16, 0);
+                graphics.lineTo(21, 10);
+                graphics.lineTo(32, 12);
+                graphics.lineTo(24, 20);
+                graphics.lineTo(26, 32);
+                graphics.lineTo(16, 26);
+                graphics.lineTo(6, 32);
+                graphics.lineTo(8, 20);
+                graphics.lineTo(0, 12);
+                graphics.lineTo(11, 10);
+                graphics.closePath();
+                graphics.fill();
+                graphics.generateTexture('fivePointStar', 32, 32);
+                graphics.clear();
+
+                // Level 4: Octagram (8-pointed star)
+                graphics.fillStyle(0xffffff, 1);
+                graphics.beginPath();
+                var cx = 16, cy = 16, outerRad = 16, innerRad = 8;
+                for (var i = 0; i < 16; i++) {
+                    var rad = i % 2 === 0 ? outerRad : innerRad;
+                    var angle = (i * Math.PI) / 8;
+                    var x = cx + Math.cos(angle) * rad;
+                    var y = cy + Math.sin(angle) * rad;
+                    if (i === 0) graphics.moveTo(x, y);
+                    else graphics.lineTo(x, y);
                 }
-            }
+                graphics.closePath();
+                graphics.fill();
+                graphics.generateTexture('octagram', 32, 32);
+                graphics.clear();
 
-            // Shield
-            if (this.isInvulnerable) {
-                this.shieldBubble.x = this.player.x;
-                this.shieldBubble.y = this.player.y;
-                if (time > this.invulnerabilityEndTime) {
-                    this.isInvulnerable = false;
-                    this.shieldBubble.setVisible(false);
-                } else {
-                    this.shieldBubble.setVisible(true);
-                }
-            } else {
+                // Level 5: Geometric Terror Boss
+                graphics.fillStyle(0x440044, 1);
+                graphics.fillTriangle(0, 0, 100, 0, 50, 80);
+                graphics.fillStyle(0xff0000, 1);
+                graphics.fillCircle(30, 20, 8);
+                graphics.fillCircle(70, 20, 8);
+                graphics.generateTexture('boss', 100, 80);
+                graphics.clear();
+
+                // Enemy Projectiles
+                graphics.fillStyle(0x00ff00, 1);
+                graphics.fillCircle(8, 8, 8);
+                graphics.generateTexture('enemyGreenBall', 16, 16);
+                graphics.clear();
+
+                graphics.fillStyle(0xff0000, 1);
+                graphics.fillTriangle(4, 0, 8, 16, 0, 16);
+                graphics.generateTexture('enemyMissile', 8, 16);
+                graphics.clear();
+
+                // Collectibles
+                graphics.fillStyle(0x0088ff, 1);
+                graphics.fillCircle(16, 16, 16);
+                graphics.generateTexture('shieldItem', 32, 32);
+                graphics.clear();
+
+                graphics.fillStyle(0xff8800, 1);
+                graphics.fillCircle(16, 16, 16);
+                graphics.generateTexture('firepowerItem', 32, 32);
+                graphics.clear();
+
+                // Shield Bubble
+                graphics.lineStyle(3, 0x00ffff, 1);
+                graphics.strokeCircle(24, 24, 24);
+                graphics.generateTexture('shieldBubble', 48, 48);
+                graphics.clear();
+
+                // Laser Texture
+                graphics.fillStyle(0x00ffff, 0.8);
+                graphics.fillRect(0, 0, 32, 600);
+                graphics.generateTexture('laserBeam', 32, 600);
+                graphics.destroy();
+
+                // Game Objects
+                this.player = this.physics.add.sprite(400, 500, 'ship');
+                this.player.setCollideWorldBounds(true);
+
+                this.shieldBubble = this.add.image(400, 500, 'shieldBubble');
                 this.shieldBubble.setVisible(false);
+
+                this.boss = this.physics.add.sprite(400, -100, 'boss');
+                this.boss.setActive(false);
+                this.boss.setVisible(false);
+
+                this.bullets = this.physics.add.group();
+                this.enemies = this.physics.add.group();
+                this.enemyProjectiles = this.physics.add.group();
+                this.shieldCollectibles = this.physics.add.group();
+                this.firepowerCollectibles = this.physics.add.group();
+
+                this.laser = this.physics.add.image(400, 300, 'laserBeam');
+                this.laser.disableBody(true, true);
+
+                this.input.mouse.disableContextMenu();
+
+                // Timers
+                this.enemyTimer = this.time.addEvent({ delay: 1000, callback: this.spawnEnemy, callbackScope: this, loop: true });
+                this.shieldTimer = this.time.addEvent({ delay: 10000, callback: this.spawnShieldItem, callbackScope: this, loop: true });
+                this.firepowerTimer = this.time.addEvent({ delay: 20000, callback: this.spawnFirepowerItem, callbackScope: this, loop: true });
+                this.levelTimerEvent = this.time.addEvent({ delay: 1000, callback: this.updateLevelTimer, callbackScope: this, loop: true });
+
+                // Collisions
+                this.physics.add.overlap(this.bullets, this.enemies, this.hitEnemy, null, this);
+                this.physics.add.overlap(this.player, this.enemies, this.hitPlayer, null, this);
+                this.physics.add.overlap(this.laser, this.enemies, this.hitEnemyLaser, null, this);
+
+                this.physics.add.overlap(this.player, this.shieldCollectibles, this.collectShield, null, this);
+                this.physics.add.overlap(this.player, this.firepowerCollectibles, this.collectFirepower, null, this);
+                this.physics.add.overlap(this.player, this.enemyProjectiles, this.hitPlayerProjectile, null, this);
+
+                this.physics.add.overlap(this.bullets, this.boss, this.hitBoss, null, this);
+                this.physics.add.overlap(this.laser, this.boss, this.hitBossLaser, null, this);
+                this.physics.add.overlap(this.player, this.boss, this.hitPlayer, null, this);
+
+                // UI
+                this.healthBarBg = this.add.rectangle(16, 16, 200, 20, 0x000000).setOrigin(0, 0);
+                this.healthBarBg.setStrokeStyle(2, 0xffffff);
+                this.healthBarFill = this.add.rectangle(16, 16, 200, 20, 0x00ff00).setOrigin(0, 0);
+
+                this.scoreText = this.add.text(16, 45, 'Score: 0', { fontSize: '32px', fill: '#fff', fontFamily: 'Arial' });
+                this.bulletText = this.add.text(16, 80, 'Bullets: ∞', { fontSize: '24px', fill: '#fff', fontFamily: 'Arial' });
+
+                this.levelText = this.add.text(400, 16, 'Level: 1', { fontSize: '32px', fill: '#fff', fontFamily: 'Arial', fontStyle: 'bold' }).setOrigin(0.5, 0);
+                this.timerText = this.add.text(400, 50, 'Time: 30', { fontSize: '24px', fill: '#ff0', fontFamily: 'Arial' }).setOrigin(0.5, 0);
+
+                this.bossHealthBg = this.add.rectangle(200, 80, 400, 20, 0x000000).setOrigin(0, 0).setDepth(100);
+                this.bossHealthBg.setStrokeStyle(2, 0xffffff);
+                this.bossHealthRed = this.add.rectangle(200, 80, 400, 20, 0xff0000).setOrigin(0, 0).setDepth(100);
+                this.bossHealthYellow = this.add.rectangle(200, 80, 400, 20, 0xffff00).setOrigin(0, 0).setDepth(100);
+                this.bossHealthGreen = this.add.rectangle(200, 80, 400, 20, 0x00ff00).setOrigin(0, 0).setDepth(100);
+
+                this.bossHealthBg.setVisible(false);
+                this.bossHealthRed.setVisible(false);
+                this.bossHealthYellow.setVisible(false);
+                this.bossHealthGreen.setVisible(false);
+
+                this.laserIcon = this.add.text(730, 540, ' S ', { fontSize: '32px', fill: '#00ffff', backgroundColor: '#0033aa', padding: { x: 10, y: 5 }, fontStyle: 'bold', fontFamily: 'Arial' });
+
+                this.gameOverContainer = this.add.container(400, 300);
+                this.gameOverContainer.setVisible(false);
             }
 
-            // Player Shooting
-            var pointer = this.input.activePointer;
-            if (pointer.leftButtonDown() && time > this.lastFired) {
-                if (this.bulletLevel === 1) {
-                    var b1 = this.bullets.create(this.player.x, this.player.y - 16, 'bullet');
-                    b1.setVelocityY(this.bulletSpeed);
-                } else if (this.bulletLevel === 2) {
-                    var b1 = this.bullets.create(this.player.x - 10, this.player.y - 16, 'bullet');
-                    var b2 = this.bullets.create(this.player.x + 10, this.player.y - 16, 'bullet');
-                    b1.setVelocityY(this.bulletSpeed);
-                    b2.setVelocityY(this.bulletSpeed);
-                } else if (this.bulletLevel >= 3) {
-                    var b1 = this.bullets.create(this.player.x - 15, this.player.y - 16, 'bullet');
-                    var b2 = this.bullets.create(this.player.x, this.player.y - 20, 'bullet');
-                    var b3 = this.bullets.create(this.player.x + 15, this.player.y - 16, 'bullet');
-                    b1.setVelocityY(this.bulletSpeed);
-                    b2.setVelocityY(this.bulletSpeed);
-                    b3.setVelocityY(this.bulletSpeed);
+            updateLevelTimer() {
+                if (this.gameOver || this.bossActive) return;
+
+                this.levelTimeRemaining--;
+                this.timerText.setText('Time: ' + this.levelTimeRemaining);
+
+                if (this.levelTimeRemaining <= 0) {
+                    this.currentLevel++;
+                    if (this.currentLevel < 5) {
+                        this.levelTimeRemaining = 30;
+                        this.levelText.setText('Level: ' + this.currentLevel);
+                    } else {
+                        this.levelText.setText('Level: 5 (BOSS)');
+                        this.timerText.setText('BOSS FIGHT');
+                        this.spawnBoss();
+                    }
                 }
-                this.lastFired = time + 150;
             }
 
-            // Laser
-            if (pointer.rightButtonDown() && this.laserReady && !this.laserActive) {
-                this.laserActive = true;
-                this.laserReady = false;
-                this.laserEndTime = time + 5000;
-                this.laserCooldownEndTime = time + 15000;
-                this.laser.enableBody(true, this.player.x, this.player.y - 300, true, true);
-                this.laserIcon.setStyle({ fill: '#ff0000', backgroundColor: '#550000' });
-                this.laserIcon.setText('ACT');
+            spawnBoss() {
+                this.bossActive = true;
+                this.boss.enableBody(true, 400, 150, true, true);
+                this.boss.setVelocityY(0);
+                this.bossHP = 1000;
+                this.bossMissileTimer = this.time.now + 5000;
+                this.boss.lastFired = this.time.now + 1000;
+
+                this.bossHealthBg.setVisible(true);
+                this.bossHealthRed.setVisible(true);
+                this.bossHealthYellow.setVisible(true);
+                this.bossHealthGreen.setVisible(true);
+                this.updateBossHealth();
             }
 
-            if (this.laserActive) {
-                this.laser.setPosition(this.player.x, this.player.y - 300);
-                if (time > this.laserEndTime) {
-                    this.laserActive = false;
-                    this.laser.disableBody(true, true);
+            updateBossHealth() {
+                var greenMax = 334;
+                var yellowMax = 333;
+                var redMax = 333;
+
+                var greenHP = Math.max(0, this.bossHP - yellowMax - redMax);
+                var yellowHP = Math.max(0, this.bossHP - redMax - greenHP);
+                var redHP = Math.max(0, this.bossHP - greenHP - yellowHP);
+
+                this.bossHealthGreen.width = (greenHP / greenMax) * 400;
+                this.bossHealthYellow.width = (yellowHP / yellowMax) * 400;
+                this.bossHealthRed.width = (redHP / redMax) * 400;
+            }
+
+            update(time, delta) {
+                if (this.gameOver) return;
+
+                // Player movement
+                if (this.input.mousePointer.x !== 0 || this.input.mousePointer.y !== 0) {
+                    this.player.x = Phaser.Math.Clamp(this.input.mousePointer.x, 16, 784);
+                    this.player.y = Phaser.Math.Clamp(this.input.mousePointer.y, 16, 584);
                 }
-            } else if (!this.laserReady) {
-                var cdLeft = Math.ceil((this.laserCooldownEndTime - time) / 1000);
-                if (cdLeft > 0) {
-                    this.laserIcon.setText(cdLeft + 's');
+
+                // Health Flash
+                if (this.currentHealth < 45 && this.currentHealth > 0) {
+                    this.healthFlashTimer += delta;
+                    if (this.healthFlashTimer > 250) {
+                        this.healthFlashTimer = 0;
+                        if (this.healthBarFill.fillColor === 0xffff00) this.healthBarFill.setFillStyle(0xff0000);
+                        else this.healthBarFill.setFillStyle(0xffff00);
+                    }
+                }
+
+                // Shield
+                if (this.isInvulnerable) {
+                    this.shieldBubble.x = this.player.x;
+                    this.shieldBubble.y = this.player.y;
+                    if (time > this.invulnerabilityEndTime) {
+                        this.isInvulnerable = false;
+                        this.shieldBubble.setVisible(false);
+                    } else {
+                        this.shieldBubble.setVisible(true);
+                    }
                 } else {
-                    this.laserReady = true;
-                    this.laserIcon.setStyle({ fill: '#00ffff', backgroundColor: '#0033aa' });
-                    this.laserIcon.setText(' S ');
+                    this.shieldBubble.setVisible(false);
                 }
-            }
 
-            // Enemy AI & Projectile homing
-            this.enemies.children.each((enemy) => {
-                if (!enemy.active) return;
-                
-                if (enemy.enemyType === 'bicolorSlime') {
-                    if (time > enemy.lastFired) {
-                        var proj = this.enemyProjectiles.create(enemy.x, enemy.y + 16, 'enemyGreenBall');
-                        proj.setVelocityY(200);
-                        proj.projType = 'greenBall';
-                        enemy.lastFired = time + 2000;
+                // Player Shooting
+                var pointer = this.input.activePointer;
+                if (pointer.leftButtonDown() && time > this.lastFired) {
+                    if (this.bulletLevel === 1) {
+                        var b1 = this.bullets.create(this.player.x, this.player.y - 16, 'bullet');
+                        b1.setVelocityY(this.bulletSpeed);
+                    } else if (this.bulletLevel === 2) {
+                        var b1 = this.bullets.create(this.player.x - 10, this.player.y - 16, 'bullet');
+                        var b2 = this.bullets.create(this.player.x + 10, this.player.y - 16, 'bullet');
+                        b1.setVelocityY(this.bulletSpeed);
+                        b2.setVelocityY(this.bulletSpeed);
+                    } else if (this.bulletLevel >= 3) {
+                        var b1 = this.bullets.create(this.player.x - 15, this.player.y - 16, 'bullet');
+                        var b2 = this.bullets.create(this.player.x, this.player.y - 20, 'bullet');
+                        var b3 = this.bullets.create(this.player.x + 15, this.player.y - 16, 'bullet');
+                        b1.setVelocityY(this.bulletSpeed);
+                        b2.setVelocityY(this.bulletSpeed);
+                        b3.setVelocityY(this.bulletSpeed);
                     }
-                } else if (enemy.enemyType === 'fivePointStar') {
-                    if (this.player.x < enemy.x) enemy.body.velocity.x -= 2;
-                    else enemy.body.velocity.x += 2;
-                    
-                    if (time > enemy.lastFired) {
-                        var p1 = this.enemyProjectiles.create(enemy.x - 10, enemy.y, 'enemyGreenBall');
-                        var p2 = this.enemyProjectiles.create(enemy.x + 10, enemy.y, 'enemyGreenBall');
-                        p1.setVelocityY(250);
-                        p2.setVelocityY(250);
-                        p1.projType = 'greenBall';
-                        p2.projType = 'greenBall';
-                        enemy.lastFired = time + 2500;
+                    this.lastFired = time + 150;
+                }
+
+                // Laser
+                if (pointer.rightButtonDown() && this.laserReady && !this.laserActive) {
+                    this.laserActive = true;
+                    this.laserReady = false;
+                    this.laserEndTime = time + 5000;
+                    this.laserCooldownEndTime = time + 15000;
+                    this.laser.enableBody(true, this.player.x, this.player.y - 300, true, true);
+                    this.laserIcon.setStyle({ fill: '#ff0000', backgroundColor: '#550000' });
+                    this.laserIcon.setText('ACT');
+                }
+
+                if (this.laserActive) {
+                    this.laser.setPosition(this.player.x, this.player.y - 300);
+                    if (time > this.laserEndTime) {
+                        this.laserActive = false;
+                        this.laser.disableBody(true, true);
                     }
-                } else if (enemy.enemyType === 'octagram') {
-                    enemy.setTint(Phaser.Math.RND.pick([0xff0000, 0x00ff00, 0x0000ff, 0xffff00, 0xff00ff, 0x00ffff]));
-                    if (time > enemy.lastFired) {
-                        var m = this.enemyProjectiles.create(enemy.x, enemy.y, 'enemyMissile');
-                        m.projType = 'missile';
-                        m.setVelocityY(150);
-                        enemy.lastFired = time + 3000;
+                } else if (!this.laserReady) {
+                    var cdLeft = Math.ceil((this.laserCooldownEndTime - time) / 1000);
+                    if (cdLeft > 0) {
+                        this.laserIcon.setText(cdLeft + 's');
+                    } else {
+                        this.laserReady = true;
+                        this.laserIcon.setStyle({ fill: '#00ffff', backgroundColor: '#0033aa' });
+                        this.laserIcon.setText(' S ');
                     }
                 }
-                if (enemy.y > 650) enemy.destroy();
-            });
 
-            this.enemyProjectiles.children.each((proj) => {
-                if (!proj.active) return;
-                if (proj.projType === 'missile' || proj.projType === 'missileBoss') {
-                    var angle = Phaser.Math.Angle.Between(proj.x, proj.y, this.player.x, this.player.y);
-                    proj.rotation = angle + Math.PI/2;
-                    proj.body.velocity.x += Math.cos(angle) * 8;
-                    proj.body.velocity.y += Math.sin(angle) * 8;
-                }
-                if (proj.y > 650 || proj.y < -50 || proj.x < -50 || proj.x > 850) proj.destroy();
-            });
+                // Enemy AI & Projectile homing
+                this.enemies.children.each((enemy) => {
+                    if (!enemy.active) return;
 
-            // Boss AI
-            if (this.bossActive) {
-                // Failsafe: if the Boss somehow disappears off-screen while still alive, respawn it!
-                if (this.bossHP > 0 && (this.boss.y > 800 || this.boss.y < -200 || this.boss.x < -200 || this.boss.x > 1000)) {
-                    this.boss.enableBody(true, 400, 150, true, true);
-                    this.boss.setVelocity(0, 0);
-                }
+                    if (enemy.enemyType === 'bicolorSlime') {
+                        if (time > enemy.lastFired) {
+                            var proj = this.enemyProjectiles.create(enemy.x, enemy.y + 16, 'enemyGreenBall');
+                            proj.setVelocityY(200);
+                            proj.projType = 'greenBall';
+                            enemy.lastFired = time + 2000;
+                        }
+                    } else if (enemy.enemyType === 'fivePointStar') {
+                        if (this.player.x < enemy.x) enemy.body.velocity.x -= 2;
+                        else enemy.body.velocity.x += 2;
 
-                if (this.boss.active) {
+                        if (time > enemy.lastFired) {
+                            var p1 = this.enemyProjectiles.create(enemy.x - 10, enemy.y, 'enemyGreenBall');
+                            var p2 = this.enemyProjectiles.create(enemy.x + 10, enemy.y, 'enemyGreenBall');
+                            p1.setVelocityY(250);
+                            p2.setVelocityY(250);
+                            p1.projType = 'greenBall';
+                            p2.projType = 'greenBall';
+                            enemy.lastFired = time + 2500;
+                        }
+                    } else if (enemy.enemyType === 'octagram') {
+                        enemy.setTint(Phaser.Math.RND.pick([0xff0000, 0x00ff00, 0x0000ff, 0xffff00, 0xff00ff, 0x00ffff]));
+                        if (time > enemy.lastFired) {
+                            var m = this.enemyProjectiles.create(enemy.x, enemy.y, 'enemyMissile');
+                            m.projType = 'missile';
+                            m.setVelocityY(150);
+                            enemy.lastFired = time + 3000;
+                        }
+                    }
+                    if (enemy.y > 650) enemy.destroy();
+                });
+
+                this.enemyProjectiles.children.each((proj) => {
+                    if (!proj.active) return;
+                    if (proj.projType === 'missile' || proj.projType === 'missileBoss') {
+                        var angle = Phaser.Math.Angle.Between(proj.x, proj.y, this.player.x, this.player.y);
+                        proj.rotation = angle + Math.PI / 2;
+                        proj.body.velocity.x += Math.cos(angle) * 8;
+                        proj.body.velocity.y += Math.sin(angle) * 8;
+                    }
+                    if (proj.y > 650 || proj.y < -50 || proj.x < -50 || proj.x > 850) proj.destroy();
+                });
+
+                // Boss AI
+                if (this.bossActive && this.boss.active) {
                     if (this.boss.y > 150 && this.boss.body.velocity.y > 0) this.boss.setVelocityY(0);
-                
-                if (time > this.boss.lastFired) {
-                    var b1 = this.enemyProjectiles.create(this.boss.x - 20, this.boss.y + 40, 'enemyGreenBall');
-                    var b2 = this.enemyProjectiles.create(this.boss.x + 20, this.boss.y + 40, 'enemyGreenBall');
-                    b1.setVelocity(Phaser.Math.Between(-50, 50), 300);
-                    b2.setVelocity(Phaser.Math.Between(-50, 50), 300);
-                    b1.projType = 'bossBullet';
-                    b2.projType = 'bossBullet';
-                    this.boss.lastFired = time + 600;
+
+                    if (time > this.boss.lastFired) {
+                        var b1 = this.enemyProjectiles.create(this.boss.x - 20, this.boss.y + 40, 'enemyGreenBall');
+                        var b2 = this.enemyProjectiles.create(this.boss.x + 20, this.boss.y + 40, 'enemyGreenBall');
+                        b1.setVelocity(Phaser.Math.Between(-50, 50), 300);
+                        b2.setVelocity(Phaser.Math.Between(-50, 50), 300);
+                        b1.projType = 'bossBullet';
+                        b2.projType = 'bossBullet';
+                        this.boss.lastFired = time + 600;
+                    }
+
+                    if (time > this.bossMissileTimer) {
+                        for (var i = 0; i < 3; i++) {
+                            var m = this.enemyProjectiles.create(this.boss.x, this.boss.y, 'enemyMissile');
+                            m.projType = 'missileBoss';
+                            m.setVelocity(Phaser.Math.Between(-200, 200), -100);
+                        }
+                        this.bossMissileTimer = time + 5000;
+                    }
                 }
 
-                if (time > this.bossMissileTimer) {
-                    for(var i=0; i<3; i++) {
-                        var m = this.enemyProjectiles.create(this.boss.x, this.boss.y, 'enemyMissile');
-                        m.projType = 'missileBoss';
-                        m.setVelocity(Phaser.Math.Between(-200, 200), -100);
-                    }
-                    this.bossMissileTimer = time + 5000;
-                }
-                }
+                // Cleanups
+                this.bullets.children.each((b) => { if (b.active && b.y < -50) b.destroy(); });
+                this.shieldCollectibles.children.each((i) => { if (i.active && i.y > 650) i.destroy(); });
+                this.firepowerCollectibles.children.each((i) => { if (i.active && i.y > 650) i.destroy(); });
             }
 
-            // Cleanups
-            this.bullets.children.each((b) => { if (b.active && b.y < -50) b.destroy(); });
-            this.shieldCollectibles.children.each((i) => { if (i.active && i.y > 650) i.destroy(); });
-            this.firepowerCollectibles.children.each((i) => { if (i.active && i.y > 650) i.destroy(); });
-        }
+            spawnEnemy() {
+                if (this.gameOver || this.bossActive) return;
+                var x = Phaser.Math.Between(32, 768);
 
-        spawnEnemy() {
-            if (this.gameOver || this.bossActive) return;
-            var x = Phaser.Math.Between(32, 768);
-            
-            var types = ['enemy'];
-            if (this.currentLevel >= 2) types.push('bicolorSlime');
-            if (this.currentLevel >= 3) types.push('fivePointStar');
-            if (this.currentLevel >= 4) types.push('octagram');
-            
-            var selectedType = Phaser.Math.RND.pick(types);
-            
-            var enemy = this.enemies.create(x, -32, selectedType);
-            enemy.enemyType = selectedType;
-            enemy.lastFired = this.time.now + Phaser.Math.Between(0, 1000);
-            enemy.setVelocityY(Phaser.Math.Between(100, 300));
-        }
+                var types = ['enemy'];
+                if (this.currentLevel >= 2) types.push('bicolorSlime');
+                if (this.currentLevel >= 3) types.push('fivePointStar');
+                if (this.currentLevel >= 4) types.push('octagram');
 
-        spawnShieldItem() {
-            if (this.gameOver) return;
-            var item = this.shieldCollectibles.create(Phaser.Math.Between(32, 768), -32, 'shieldItem');
-            item.setVelocityY(150);
-        }
+                var selectedType = Phaser.Math.RND.pick(types);
 
-        spawnFirepowerItem() {
-            if (this.gameOver) return;
-            var item = this.firepowerCollectibles.create(Phaser.Math.Between(32, 768), -32, 'firepowerItem');
-            item.setVelocityY(150);
-        }
+                var enemy = this.enemies.create(x, -32, selectedType);
+                enemy.enemyType = selectedType;
+                enemy.lastFired = this.time.now + Phaser.Math.Between(0, 1000);
+                enemy.setVelocityY(Phaser.Math.Between(100, 300));
+            }
 
-        collectShield(player, item) {
-            item.destroy();
-            this.isInvulnerable = true;
-            this.invulnerabilityEndTime = this.time.now + 6000;
-        }
+            spawnShieldItem() {
+                if (this.gameOver) return;
+                var item = this.shieldCollectibles.create(Phaser.Math.Between(32, 768), -32, 'shieldItem');
+                item.setVelocityY(150);
+            }
 
-        collectFirepower(player, item) {
-            item.destroy();
-            if (this.bulletLevel < 3) this.bulletLevel++;
-            else this.bulletSpeed -= 200;
-        }
+            spawnFirepowerItem() {
+                if (this.gameOver) return;
+                var item = this.firepowerCollectibles.create(Phaser.Math.Between(32, 768), -32, 'firepowerItem');
+                item.setVelocityY(150);
+            }
 
-        hitEnemy(bullet, enemy) {
-            bullet.destroy();
-            enemy.destroy();
-            this.score += 10;
-            this.scoreText.setText('Score: ' + this.score);
-        }
+            collectShield(player, item) {
+                item.destroy();
+                this.isInvulnerable = true;
+                this.invulnerabilityEndTime = this.time.now + 6000;
+            }
 
-        hitEnemyLaser(laser, enemy) {
-            if (laser.active) {
+            collectFirepower(player, item) {
+                item.destroy();
+                if (this.bulletLevel < 3) this.bulletLevel++;
+                else this.bulletSpeed -= 200;
+            }
+
+            hitEnemy(bullet, enemy) {
+                bullet.destroy();
                 enemy.destroy();
                 this.score += 10;
                 this.scoreText.setText('Score: ' + this.score);
             }
-        }
 
-        hitBoss(bullet, bossObj) {
-            if (!this.bossActive) return;
-            bullet.destroy();
-            this.bossHP -= 15;
-            this.updateBossHealth();
-            bossObj.setTint(0xffffff);
-            this.time.delayedCall(50, () => {
-                if (bossObj.active) bossObj.clearTint();
-            });
-            this.checkBossDeath(bossObj);
-        }
-        
-        hitBossLaser(laser, bossObj) {
-            if (!this.bossActive || !laser.active) return;
-            if (this.time.now > (bossObj.lastLaserHit || 0)) {
-                this.bossHP -= 30;
+            hitEnemyLaser(laser, enemy) {
+                if (laser.active) {
+                    enemy.destroy();
+                    this.score += 10;
+                    this.scoreText.setText('Score: ' + this.score);
+                }
+            }
+
+            hitBoss(bullet, bossObj) {
+                if (!this.bossActive) return;
+                bullet.destroy();
+                this.bossHP -= 15;
                 this.updateBossHealth();
-                bossObj.lastLaserHit = this.time.now + 100;
                 bossObj.setTint(0xffffff);
                 this.time.delayedCall(50, () => {
                     if (bossObj.active) bossObj.clearTint();
                 });
                 this.checkBossDeath(bossObj);
             }
-        }
 
-        checkBossDeath(bossObj) {
-            if (this.bossHP <= 0 && this.bossActive) {
-                this.bossHP = 0;
-                this.updateBossHealth();
-                this.bossActive = false;
-                this.score += 1000;
-                this.scoreText.setText('Score: ' + this.score);
-                
-                bossObj.setTint(0xff0000);
-                this.time.addEvent({
-                    delay: 100,
-                    repeat: 10,
-                    callback: () => {
-                        if (bossObj.active) {
-                            bossObj.setVisible(!bossObj.visible);
-                            bossObj.x += Phaser.Math.Between(-15, 15);
-                            bossObj.y += Phaser.Math.Between(-15, 15);
+            hitBossLaser(laser, bossObj) {
+                if (!this.bossActive || !laser.active) return;
+                if (this.time.now > (bossObj.lastLaserHit || 0)) {
+                    this.bossHP -= 30;
+                    this.updateBossHealth();
+                    bossObj.lastLaserHit = this.time.now + 100;
+                    bossObj.setTint(0xffffff);
+                    this.time.delayedCall(50, () => {
+                        if (bossObj.active) bossObj.clearTint();
+                    });
+                    this.checkBossDeath(bossObj);
+                }
+            }
+
+            checkBossDeath(bossObj) {
+                if (this.bossHP <= 0 && this.bossActive) {
+                    this.bossHP = 0;
+                    this.updateBossHealth();
+                    this.bossActive = false;
+                    this.score += 1000;
+                    this.scoreText.setText('Score: ' + this.score);
+
+                    bossObj.setTint(0xff0000);
+                    this.time.addEvent({
+                        delay: 100,
+                        repeat: 10,
+                        callback: () => {
+                            if (bossObj.active) {
+                                bossObj.setVisible(!bossObj.visible);
+                                bossObj.x += Phaser.Math.Between(-15, 15);
+                                bossObj.y += Phaser.Math.Between(-15, 15);
+                            }
                         }
-                    }
-                });
-                
-                this.time.delayedCall(1200, () => {
-                    bossObj.destroy();
-                    this.bossHealthBg.setVisible(false);
-                    this.bossHealthRed.setVisible(false);
-                    this.bossHealthYellow.setVisible(false);
-                    this.bossHealthGreen.setVisible(false);
-                    this.triggerGameOver('YOU WIN!');
-                });
-            }
-        }
+                    });
 
-        hitPlayerProjectile(player, proj) {
-            if (this.isInvulnerable) {
+                    this.time.delayedCall(1200, () => {
+                        bossObj.destroy();
+                        this.bossHealthBg.setVisible(false);
+                        this.bossHealthRed.setVisible(false);
+                        this.bossHealthYellow.setVisible(false);
+                        this.bossHealthGreen.setVisible(false);
+                        this.triggerGameOver('YOU WIN!');
+                    });
+                }
+            }
+
+            hitPlayerProjectile(player, proj) {
+                if (this.isInvulnerable) {
+                    proj.destroy();
+                    return;
+                }
+                var damage = 5;
+                if (proj.projType === 'greenBall') damage = 3;
+                else if (proj.projType === 'missileBoss') damage = Phaser.Math.Between(5, 15);
+                else if (proj.projType === 'bossBullet') damage = Phaser.Math.Between(5, 8);
+                else if (proj.projType === 'missile') damage = Phaser.Math.Between(5, 15);
+
                 proj.destroy();
-                return;
+                this.takeDamage(damage);
             }
-            var damage = 5;
-            if (proj.projType === 'greenBall') damage = 3;
-            else if (proj.projType === 'missileBoss') damage = Phaser.Math.Between(5, 15);
-            else if (proj.projType === 'bossBullet') damage = Phaser.Math.Between(5, 8);
-            else if (proj.projType === 'missile') damage = Phaser.Math.Between(5, 15);
-            
-            proj.destroy();
-            this.takeDamage(damage);
-        }
 
-        hitPlayer(player, enemy) {
-            if (this.isInvulnerable) return;
-            if (enemy === this.boss) {
-                this.takeDamage(20);
-            } else {
-                enemy.destroy();
-                this.takeDamage(Phaser.Math.Between(2, 5));
+            hitPlayer(player, enemy) {
+                if (this.isInvulnerable) return;
+                if (enemy === this.boss) {
+                    this.takeDamage(20);
+                } else {
+                    enemy.destroy();
+                    this.takeDamage(Phaser.Math.Between(2, 5));
+                }
             }
-        }
 
-        takeDamage(damage) {
-            this.currentHealth -= damage;
-            if (this.currentHealth < 0) this.currentHealth = 0;
-            
-            this.healthBarFill.width = (this.currentHealth / this.maxHealth) * 200;
-            if (this.currentHealth > 50) this.healthBarFill.setFillStyle(0x00ff00);
-            else if (this.currentHealth >= 45) this.healthBarFill.setFillStyle(0xffff00);
-            else if (this.healthBarFill.fillColor === 0x00ff00) this.healthBarFill.setFillStyle(0xffff00);
+            takeDamage(damage) {
+                this.currentHealth -= damage;
+                if (this.currentHealth < 0) this.currentHealth = 0;
 
-            if (this.currentHealth <= 0) {
-                this.triggerGameOver('GAME OVER');
-            } else {
+                this.healthBarFill.width = (this.currentHealth / this.maxHealth) * 200;
+                if (this.currentHealth > 50) this.healthBarFill.setFillStyle(0x00ff00);
+                else if (this.currentHealth >= 45) this.healthBarFill.setFillStyle(0xffff00);
+                else if (this.healthBarFill.fillColor === 0x00ff00) this.healthBarFill.setFillStyle(0xffff00);
+
+                if (this.currentHealth <= 0) {
+                    this.triggerGameOver('GAME OVER');
+                } else {
+                    this.player.setTint(0xff0000);
+                    this.time.delayedCall(100, () => {
+                        if (!this.gameOver) this.player.clearTint();
+                    });
+                }
+            }
+
+            triggerGameOver(message) {
+                if (this.gameOver) return;
+                this.gameOver = true;
+                this.physics.pause();
                 this.player.setTint(0xff0000);
-                this.time.delayedCall(100, () => {
-                    if (!this.gameOver) this.player.clearTint();
+
+                this.enemyTimer.remove();
+                this.levelTimerEvent.remove();
+                if (this.shieldTimer) this.shieldTimer.remove();
+                if (this.firepowerTimer) this.firepowerTimer.remove();
+
+                saveScore(playerName, this.score);
+
+                // Show Game Over UI Overlay
+                var bg = this.add.rectangle(0, 0, 800, 600, 0x000000, 0.8).setOrigin(0);
+                this.gameOverContainer.add(bg);
+
+                var title = this.add.text(400, 100, message, { fontSize: '48px', fill: message === 'YOU WIN!' ? '#0f0' : '#f00', fontStyle: 'bold' }).setOrigin(0.5);
+                this.gameOverContainer.add(title);
+
+                var rankTitle = this.add.text(400, 180, 'TOP SCORES', { fontSize: '28px', fill: '#fff', fontStyle: 'bold' }).setOrigin(0.5);
+                this.gameOverContainer.add(rankTitle);
+
+                var ranking = getRanking();
+                for (var i = 0; i < Math.min(5, ranking.length); i++) {
+                    var r = ranking[i];
+                    var txt = this.add.text(400, 230 + (i * 30), (i + 1) + ". " + r.name + " - " + r.score, { fontSize: '24px', fill: r.name === playerName ? '#0f0' : '#fff' }).setOrigin(0.5);
+                    this.gameOverContainer.add(txt);
+                }
+
+                var retryBtn = this.add.text(400, 450, 'PLAY AGAIN', { fontSize: '36px', fill: '#ff0', fontStyle: 'bold' }).setOrigin(0.5);
+                retryBtn.setInteractive();
+                retryBtn.on('pointerover', () => retryBtn.setFill('#fff'));
+                retryBtn.on('pointerout', () => retryBtn.setFill('#ff0'));
+                retryBtn.on('pointerdown', () => {
+                    this.scene.restart();
                 });
+                this.gameOverContainer.add(retryBtn);
+
+                var menuBtn = this.add.text(400, 520, 'MAIN MENU', { fontSize: '28px', fill: '#aaa', fontStyle: 'bold' }).setOrigin(0.5);
+                menuBtn.setInteractive();
+                menuBtn.on('pointerover', () => menuBtn.setFill('#fff'));
+                menuBtn.on('pointerout', () => menuBtn.setFill('#aaa'));
+                menuBtn.on('pointerdown', () => {
+                    this.scene.start('MenuScene');
+                });
+                this.gameOverContainer.add(menuBtn);
+
+                this.gameOverContainer.setVisible(true);
+                this.gameOverContainer.setDepth(1000); // ensure it is on top of everything
             }
         }
 
-        triggerGameOver(message) {
-            if (this.gameOver) return;
-            this.gameOver = true;
-            this.physics.pause();
-            this.player.setTint(0xff0000);
-            
-            this.enemyTimer.remove();
-            this.levelTimerEvent.remove();
-            if (this.shieldTimer) this.shieldTimer.remove();
-            if (this.firepowerTimer) this.firepowerTimer.remove();
+        var config = {
+            type: Phaser.AUTO,
+            width: 800,
+            height: 600,
+            physics: {
+                default: 'arcade',
+                arcade: {
+                    gravity: { y: 0 },
+                    debug: false
+                }
+            },
+            scene: [MenuScene, GameScene, RankingScene]
+        };
 
-            saveScore(playerName, this.score);
-
-            // Show Game Over UI Overlay
-            var bg = this.add.rectangle(0, 0, 800, 600, 0x000000, 0.8).setOrigin(0);
-            this.gameOverContainer.add(bg);
-
-            var title = this.add.text(400, 100, message, { fontSize: '48px', fill: message === 'YOU WIN!' ? '#0f0' : '#f00', fontStyle: 'bold' }).setOrigin(0.5);
-            this.gameOverContainer.add(title);
-
-            var rankTitle = this.add.text(400, 180, 'TOP SCORES', { fontSize: '28px', fill: '#fff', fontStyle: 'bold' }).setOrigin(0.5);
-            this.gameOverContainer.add(rankTitle);
-
-            var ranking = getRanking();
-            for (var i = 0; i < Math.min(5, ranking.length); i++) {
-                var r = ranking[i];
-                var txt = this.add.text(400, 230 + (i * 30), (i + 1) + ". " + r.name + " - " + r.score, { fontSize: '24px', fill: r.name === playerName ? '#0f0' : '#fff' }).setOrigin(0.5);
-                this.gameOverContainer.add(txt);
-            }
-
-            var retryBtn = this.add.text(400, 450, 'PLAY AGAIN', { fontSize: '36px', fill: '#ff0', fontStyle: 'bold' }).setOrigin(0.5);
-            retryBtn.setInteractive();
-            retryBtn.on('pointerover', () => retryBtn.setFill('#fff'));
-            retryBtn.on('pointerout', () => retryBtn.setFill('#ff0'));
-            retryBtn.on('pointerdown', () => {
-                this.scene.restart();
-            });
-            this.gameOverContainer.add(retryBtn);
-
-            var menuBtn = this.add.text(400, 520, 'MAIN MENU', { fontSize: '28px', fill: '#aaa', fontStyle: 'bold' }).setOrigin(0.5);
-            menuBtn.setInteractive();
-            menuBtn.on('pointerover', () => menuBtn.setFill('#fff'));
-            menuBtn.on('pointerout', () => menuBtn.setFill('#aaa'));
-            menuBtn.on('pointerdown', () => {
-                this.scene.start('MenuScene');
-            });
-            this.gameOverContainer.add(menuBtn);
-
-            this.gameOverContainer.setVisible(true);
-            this.gameOverContainer.setDepth(1000); // ensure it is on top of everything
-        }
-    }
-
-    var config = {
-        type: Phaser.AUTO,
-        width: 800,
-        height: 600,
-        physics: {
-            default: 'arcade',
-            arcade: {
-                gravity: { y: 0 },
-                debug: false
-            }
-        },
-        scene: [MenuScene, GameScene, RankingScene]
-    };
-
-    var game = new Phaser.Game(config);
-</script>
+        var game = new Phaser.Game(config);
+    </script>
 </body>
+
 </html>
