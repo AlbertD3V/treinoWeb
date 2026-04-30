@@ -297,7 +297,7 @@
 
                 this.laserIcon = this.add.text(730, 540, ' S ', { fontSize: '32px', fill: '#00ffff', backgroundColor: '#0033aa', padding: { x: 10, y: 5 }, fontStyle: 'bold', fontFamily: 'Arial' });
 
-                this.gameOverContainer = this.add.container(400, 300);
+                this.gameOverContainer = this.add.container(0, 0);
                 this.gameOverContainer.setVisible(false);
             }
 
@@ -322,8 +322,10 @@
 
             spawnBoss() {
                 this.bossActive = true;
-                this.boss.enableBody(true, 400, 150, true, true);
-                this.boss.setVelocityY(0);
+                this.boss.enableBody(true, 400, -80, true, true);
+                this.boss.setActive(true);
+                this.boss.setVisible(true);
+                this.boss.setVelocityY(50);
                 this.bossHP = 1000;
                 this.bossMissileTimer = this.time.now + 5000;
                 this.boss.lastFired = this.time.now + 1000;
@@ -481,7 +483,10 @@
 
                 // Boss AI
                 if (this.bossActive && this.boss.active) {
-                    if (this.boss.y > 150 && this.boss.body.velocity.y > 0) this.boss.setVelocityY(0);
+                    if (this.boss.y > 150 && this.boss.body.velocity.y > 0) {
+                        this.boss.setVelocityY(0);
+                        this.boss.y = 150;
+                    }
 
                     if (time > this.boss.lastFired) {
                         var b1 = this.enemyProjectiles.create(this.boss.x - 20, this.boss.y + 40, 'enemyGreenBall');
@@ -499,7 +504,7 @@
                             m.projType = 'missileBoss';
                             m.setVelocity(Phaser.Math.Between(-200, 200), -100);
                         }
-                        this.bossMissileTimer = time + 5000;
+                        this.bossMissileTimer = time + 3000;
                     }
                 }
 
@@ -568,9 +573,9 @@
             hitBoss(bullet, bossObj) {
                 if (!this.bossActive) return;
                 bullet.destroy();
-                this.bossHP -= 15;
+                this.bossHP -= 2;
                 this.updateBossHealth();
-                bossObj.setTint(0xffffff);
+                bossObj.setTintFill(0xffffff);
                 this.time.delayedCall(50, () => {
                     if (bossObj.active) bossObj.clearTint();
                 });
@@ -580,10 +585,10 @@
             hitBossLaser(laser, bossObj) {
                 if (!this.bossActive || !laser.active) return;
                 if (this.time.now > (bossObj.lastLaserHit || 0)) {
-                    this.bossHP -= 30;
+                    this.bossHP -= 15;
                     this.updateBossHealth();
                     bossObj.lastLaserHit = this.time.now + 100;
-                    bossObj.setTint(0xffffff);
+                    bossObj.setTintFill(0xffffff);
                     this.time.delayedCall(50, () => {
                         if (bossObj.active) bossObj.clearTint();
                     });
