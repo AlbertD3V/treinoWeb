@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrar Casos e Óbitos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <main class="container py-3">
+        <section class="card mx-auto mb-4" style="max-width: 438px;">
+            <div class="card-header bg-white">
+                <h1 class="h4 mb-0">Covid-19: Registro de Casos e Óbitos</h1>
+            </div>
+
+            <div class="card-body">
+                <form id="formregistro">
+                    <div class="mb-3">
+                        <label for="siglaEstado" class="form-label">Sigla do Estado:</label>
+                        <input type="text" class="form-control" id="siglaEstado" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="data" class="form-label">Data:</label>
+                        <input type="text" class="form-control" id="data" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="casos" class="form-label">Número de Casos:</label>
+                        <input type="number" class="form-control" id="casos" min="0" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="obitos" class="form-label">Número de Óbitos:</label>
+                        <input type="number" class="form-control" id="obitos" min="0" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-light border border-secondary">Adicionar</button>
+                </form>
+            </div>
+        </section>
+
+        <a href="#" id="linkRanking" class="text-decoration-none">RELATÓRIO</a>
+
+        <table class="table mt-1">
+            <thead>
+                <tr>
+                    <th>Estado</th>
+                    <th>Data</th>
+                    <th>Casos</th>
+                    <th>Óbitos</th>
+                    <th>Percentual de Óbitos em Relação ao Número de Casos(%)</th>
+                </tr>
+            </thead>
+            <tbody id="corpoTabela"></tbody>
+        </table>
+    </main>
+
+    <script src="scriptSimulado.js"></script>
+</body>
+</html>
