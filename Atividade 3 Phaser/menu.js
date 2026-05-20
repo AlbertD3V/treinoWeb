@@ -24,8 +24,6 @@ class MenuScene extends Phaser.Scene {
             ease: 'Sine.easeInOut'
         });
 
-        playButton.on('pointerdown', () => {
-            this.scene.start('JogoScene');
-        });
+        playButton.on('pointerdown', () => {this.scene.start('JogoScene');});
     }
 }
