@@ -145,7 +145,6 @@ class Fase1 extends Phaser.Scene {
             return;
         }
 
-        this.sound.play('som_cadeado');
         this.sound.play('som_passou');
         this.scene.start('Fase2');
     }
