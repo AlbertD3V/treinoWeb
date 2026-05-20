@@ -52,28 +52,28 @@ class JogoScene extends Phaser.Scene {
     createAnimations() {
         this.anims.create({
             key: 'macaco_down',
-            frames: this.anims.generateFrameNumbers('macaco', { start: 0, end: 11 }),
+            frames: this.anims.generateFrameNumbers('macaco', { start: 0, end: 10 }),
             frameRate: 8,
             repeat: -1
         });
 
         this.anims.create({
             key: 'macaco_right',
-            frames: this.anims.generateFrameNumbers('macaco', { start: 24, end: 35 }),
+            frames: this.anims.generateFrameNumbers('macaco', { start: 23, end: 30 }),
             frameRate: 8,
             repeat: -1
         });
 
         this.anims.create({
             key: 'macaco_left',
-            frames: this.anims.generateFrameNumbers('macaco', { start: 12, end: 23 }),
+            frames: this.anims.generateFrameNumbers('macaco', { start: 11, end: 20 }),
             frameRate: 8,
             repeat: -1
         });
 
         this.anims.create({
             key: 'macaco_up',
-            frames: this.anims.generateFrameNumbers('macaco', { start: 36, end: 45 }),
+            frames: this.anims.generateFrameNumbers('macaco', { start: 35, end: 40 }),
             frameRate: 8,
             repeat: -1
         });
@@ -148,7 +148,7 @@ class JogoScene extends Phaser.Scene {
     }
 
     createPlayer() {
-        this.player = this.physics.add.sprite(165, 360, 'macaco', 0)
+        this.player = this.physics.add.sprite(100, 360, 'macaco', 0)
             .setScale(1.25)
             .setCollideWorldBounds(true);
 
