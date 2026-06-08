@@ -86,7 +86,7 @@ class JogoScene extends Phaser.Scene {
     createAnimations() {
         this.anims.create({
             key: 'parado',
-            frames: this.anims.generateFrameNumbers('player', { start: 0, end: 2 }),
+            frames: this.anims.generateFrameNumbers('player', { start: 1, end: 1 }),
             frameRate: 4,
             repeat: -1
         });
