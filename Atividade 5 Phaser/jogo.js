@@ -21,7 +21,7 @@ class Jogo extends Phaser.Scene {
         this.load.image('bola4', 'quatro.png');
         this.load.image('bola5', 'cinco.png');
         this.load.spritesheet('panda', 'panda.png', {
-            frameWidth: 80,
+            frameWidth: 70,
             frameHeight: 100
         });
     }
@@ -96,7 +96,8 @@ class Jogo extends Phaser.Scene {
     }
 
     criarPanda() {
-        this.panda = this.physics.add.sprite(920, 500, 'panda');
+        this.panda = this.physics.add.sprite(920, 480, 'panda');
+        this.panda.setScale(0.9);
         this.panda.setCollideWorldBounds(true);
         this.panda.body.setAllowGravity(false);
         this.panda.setSize(48, 82);
@@ -111,7 +112,7 @@ class Jogo extends Phaser.Scene {
         this.textoFase.setText(`Fase ${this.faseAtual + 1}: ${fase.nome}`);
         this.textoPergunta.setText(`Quantos(as) ${fase.nome.toLowerCase()}s aparecem?`);
 
-        this.panda.setPosition(920, 500);
+        this.panda.setPosition(920, 480);
         this.panda.setVelocity(0, 0);
         this.panda.setFrame(4);
 
